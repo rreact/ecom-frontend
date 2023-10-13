@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Navbar from "../components/Navbar";
-
 const Home = () => {
-  console.log(process.env.REACT_APP_BASE_URL);
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -27,7 +26,7 @@ const Home = () => {
     }
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -53,9 +52,23 @@ const Home = () => {
     if (!formData.dob.trim()) {
       newErrors.dob = "DOB is required";
     }
+
     if (Object.keys(newErrors).length === 0) {
       // Handle form submission here
       console.log("Form data:", formData);
+      const url = process.env.REACT_APP_BASE_URL;
+      const headers = {
+        Authorization: "Brearer TOKEN",
+        "Content-Type": "application/json",
+      };
+      console.log(url);
+      const res = await axios.post(
+        url + "/v1/user/register",
+        formData,
+        headers
+      );
+      const user = await res;
+      console.log(user);
     } else {
       setErrors(newErrors);
       console.log(newErrors);
