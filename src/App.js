@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import ErrorPage from "./pages/ErrorPage";
 import Dashboard from "./pages/Dashboard";
+import AddProductCategory from "./pages/AddProductCategory";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/add-product-category",
+    element: <AddProductCategory />,
   },
 ]);
 function App() {
