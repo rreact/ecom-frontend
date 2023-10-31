@@ -4,7 +4,8 @@ import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import ErrorPage from "./pages/ErrorPage";
 import Dashboard from "./pages/Dashboard";
-import AddProductCategory from "./pages/AddProductCategory";
+import AddProductCategory from "./pages/product/AddProductCategory";
+import ShowProductCategories from "./pages/product/ShowProductCategories";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/add-product-category",
     element: <AddProductCategory />,
+  },
+  {
+    path: "/show-product-categories",
+    element: <ShowProductCategories />,
   },
 ]);
 function App() {

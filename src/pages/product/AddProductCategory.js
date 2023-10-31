@@ -1,51 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 const AddProductCategory = () => {
   const [cName, setCName] = useState("");
   const [cType, setcType] = useState("");
   const [pImage, setPImage] = useState("");
   const [img, setImg] = useState("");
-
+  const [msg, setMsg] = useState("");
+  const fileInputRef = useRef(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPImage(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        setImg(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+    }
+  };
   const AddProductCategory = async (e) => {
     e.preventDefault();
-
-    let pc = pImage.target.files[0];
-
-    let image = {
-      image_name: pImage.target.files[0].name,
-      content_type: pImage.target.files[0].type,
-    };
-    let reader = await new FileReader();
-    reader.readAsDataURL(pc);
-    reader.onload = function () {
-      setImg(() => reader.result);
-    };
-    reader.onerror = function (error) {
-      console.log("Error: ", error);
-    };
-    //   product_image: {
-    //   image_name: String,
-    //   image_data: String,
-    //   content_type: String,
-    // },
     let formData = {
       product_category: cName,
       product_warranty: cType,
       product_image: {
-        image_name: pImage.target.files[0].name,
-        content_type: pImage.target.files[0].type,
+        image_name: pImage.name,
+        content_type: pImage.type,
         image_data: img,
       },
     };
-    if (typeof image !== "undefined") {
+    if (formData) {
       try {
         let product = await axios.post(
           process.env.REACT_APP_BASE_URL + "product/category",
           formData
         );
-        console.log(product);
+
+        if (product) {
+          setCName("");
+          setcType("");
+          setPImage("");
+          fileInputRef.current.value = null;
+          setImg("");
+          setMsg("Category Added Successfully !");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -57,7 +60,7 @@ const AddProductCategory = () => {
       <Navbar />
       <div className="container mx-auto">
         <div className="grid grid-cols-2 gap-1">
-          <div></div>
+          <div>{msg && <h2 className="text-green-700">{msg}</h2>}</div>
           <div>
             <form onSubmit={AddProductCategory}>
               <div className="sm:col-span-3">
@@ -82,7 +85,7 @@ const AddProductCategory = () => {
                   htmlFor="c_type"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Category Type
+                  Warranty Period
                 </label>
                 <div className="mt-2">
                   <input
@@ -105,7 +108,8 @@ const AddProductCategory = () => {
                   <input
                     type="file"
                     name="c_image"
-                    onChange={(e) => setPImage(e)}
+                    ref={fileInputRef}
+                    onChange={(e) => handleFileChange(e)}
                     className="block w-full rounded-md border-0 px-2 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
