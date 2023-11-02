@@ -1,6 +1,8 @@
 // import sha256 from "crypto-js/sha256";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 const UserRegister = () => {
@@ -75,18 +77,37 @@ const UserRegister = () => {
         Authorization: "Brearer TOKEN",
         "Content-Type": "application/json",
       };
-      const res = await axios.post(url + "v1/user/register", formData, headers);
-      const user = await res;
-      if (user?.data.user) {
-        setFormData({
-          fname: "",
-          lname: "",
-          email: "",
-          mob: "",
-          dob: "",
-          password: "",
-        });
-        setMsg(user.data.msg);
+      try {
+        const res = await axios.post(
+          url + "v1/user/register",
+          formData,
+          headers
+        );
+        const user = await res;
+
+        if (user?.data.user) {
+          setFormData({
+            fname: "",
+            lname: "",
+            email: "",
+            mob: "",
+            dob: "",
+            password: "",
+          });
+          setMsg(user.data.msg);
+          toast.success(user.data.msg, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      } catch (err) {
+        setErrors(newErrors);
       }
     } else {
       setErrors(newErrors);
