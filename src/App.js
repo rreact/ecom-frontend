@@ -38,6 +38,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+      {/* npm i @cfaester/enzyme-adapter-react-18 */}
       <RouterProvider router={router} />
       <ToastContainer />
     </>

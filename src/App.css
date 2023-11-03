@@ -2,3 +2,9 @@
   color: antiquewhite;
   font-weight: bold;
 }
+.ul-flex {
+  display: flex;
+}
+.ul-flex li {
+  width: 100%;
+}
