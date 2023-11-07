@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { ToastSuccess } from "../../components/Toast";
+import { useMyContext } from "../../context/Store";
 
 const AddProducts = () => {
   const [pName, setPname] = useState("");
@@ -11,7 +12,6 @@ const AddProducts = () => {
   const [products, setProducts] = useState([]);
   const [image, setImage] = useState({});
   const fileInputRef = useRef(null);
-
   useEffect(() => {
     fetchCategories();
     getProducts();
@@ -38,12 +38,15 @@ const AddProducts = () => {
     }
   };
   const getProducts = async () => {
-    let product = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}product/get-products`
-    );
+    try {
+      let product = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}product/get-products`
+      );
 
-    console.log("pro", product);
-    setProducts(product.data.products);
+      setProducts(product.data.products);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const fetchCategories = async () => {
     try {

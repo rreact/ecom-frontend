@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import AddProductCategory from "./pages/product/AddProductCategory";
 import ShowProductCategories from "./pages/product/ShowProductCategories";
 import AddProducts from "./pages/product/AddProducts";
+import { MyProvider } from "./context/Store";
+import ProductDescriptionPage from "./pages/product/ProductDescriptionPage";
+import Navbar from "./components/Navbar";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,13 +37,19 @@ const router = createBrowserRouter([
     path: "/add-products",
     element: <AddProducts />,
   },
+  {
+    path: "/product/:id",
+    element: <ProductDescriptionPage />,
+  },
 ]);
 function App() {
   return (
     <>
-      {/* npm i @cfaester/enzyme-adapter-react-18 */}
-      <RouterProvider router={router} />
-      <ToastContainer />
+      <MyProvider>
+        {/* npm i @cfaester/enzyme-adapter-react-18 */}
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </MyProvider>
     </>
   );
 }
