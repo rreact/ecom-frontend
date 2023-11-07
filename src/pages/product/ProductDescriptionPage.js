@@ -4,11 +4,15 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { ToastError } from "../../components/Toast";
 import { useNavigate } from "react-router-dom";
+import { useMyContext } from "../../context/Store";
 const ProductDescriptionPage = () => {
   const [item, setItem] = useState([]);
-  const [errMsg, setErrMsg] = useState("");
+  const [order, setOrder] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const { state, dispatch } = useMyContext();
+
   useEffect(() => {
     getProduct();
   }, []);
@@ -24,6 +28,34 @@ const ProductDescriptionPage = () => {
     } catch (err) {
       ToastError("invalid product id", "top-right");
       navigate("/");
+    }
+  };
+
+  const buyItem = async () => {
+    // http://localhost:5100/orders/create-order-id
+
+    try {
+      let orderInfo = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}orders/create-order-id`,
+        item._id
+      );
+      if (orderInfo?.data) {
+        setOrder({
+          id: orderInfo.data.order.id,
+          amount: orderInfo.data.order.amount,
+        });
+        dispatch({
+          type: "ORDER",
+          payload: {
+            id: orderInfo.data.order.id,
+            amount: orderInfo.data.order.amount,
+          },
+        });
+        navigate("/order-details");
+        // console.log(orderInfo);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   return (
@@ -47,6 +79,14 @@ const ProductDescriptionPage = () => {
                 <div className="p-3 m-1 bg-gray-300">{item?.product_price}</div>
                 <div className="p-3 m-1 bg-gray-300">
                   {item?.product_description}
+                </div>
+                <div>
+                  <button
+                    className="px-3 py-2 m-1 bg-teal-600 text-white-900 rounded"
+                    onClick={buyItem}
+                  >
+                    Buy
+                  </button>
                 </div>
               </div>
             </div>

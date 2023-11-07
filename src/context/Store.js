@@ -8,9 +8,11 @@ const initialState = {
     mob: null,
     token: null,
   },
+  order: {},
 };
 
 const reducer = (state, action) => {
+  console.log(action);
   switch (action.type) {
     // Define different cases for your actions
     // For example:
@@ -23,6 +25,15 @@ const reducer = (state, action) => {
           mob: null,
           token: null,
         },
+        order: {},
+      };
+    case "ORDER":
+      return {
+        ...state,
+        order: {
+          id: action?.payload.id,
+          amount: action?.payload.amount,
+        },
       };
     case "LOGOUT":
       return {
@@ -33,6 +44,7 @@ const reducer = (state, action) => {
           mob: null,
           token: null,
         },
+        order: {},
       };
     default:
       return state;

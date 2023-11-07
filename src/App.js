@@ -11,6 +11,7 @@ import AddProducts from "./pages/product/AddProducts";
 import { MyProvider } from "./context/Store";
 import ProductDescriptionPage from "./pages/product/ProductDescriptionPage";
 import Navbar from "./components/Navbar";
+import OrderPage from "./pages/product/OrderPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/product/:id",
     element: <ProductDescriptionPage />,
+  },
+  {
+    path: "/order-details",
+    element: <OrderPage />,
   },
 ]);
 function App() {
