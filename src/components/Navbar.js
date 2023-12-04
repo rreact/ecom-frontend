@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
+import { useMyContext } from "../context/Store";
 const Navbar = () => {
+  const { state } = useMyContext();
   return (
     <nav className="bg-teal-600 p-3 mb-2">
       <div className="flex">
@@ -20,7 +21,7 @@ const Navbar = () => {
             Add Product
           </NavLink>
         </div>
-        <div className="basis-1/5">User info</div>
+        <div className="basis-1/5">{state?.user.name}</div>
       </div>
     </nav>
   );

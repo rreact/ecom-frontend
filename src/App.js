@@ -1,3 +1,4 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
@@ -15,7 +16,7 @@ import OrderPage from "./pages/product/OrderPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Dashboard />,
     errorElement: <ErrorPage />,
   },
   {
@@ -48,13 +49,24 @@ const router = createBrowserRouter([
   },
 ]);
 function App() {
+  window.addEventListener("offline", (e) => {
+    console.log("server offline");
+  });
+
+  window.addEventListener("online", (e) => {
+    console.log(" server online");
+  });
   return (
     <>
-      <MyProvider>
-        {/* npm i @cfaester/enzyme-adapter-react-18 */}
-        <RouterProvider router={router} />
-        <ToastContainer />
-      </MyProvider>
+      <GoogleOAuthProvider
+        clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
+      >
+        <MyProvider>
+          {/* npm i @cfaester/enzyme-adapter-react-18 */}
+          <RouterProvider router={router} />
+          <ToastContainer />
+        </MyProvider>
+      </GoogleOAuthProvider>
     </>
   );
 }

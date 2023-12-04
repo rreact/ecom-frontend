@@ -8,8 +8,6 @@ export default class Checkout extends React.Component {
     };
     // this.changeAmount = this.changeAmount.bind(this);
     this.openCheckout = this.openCheckout.bind(this);
-    console.log(props);
-    console.log(this.state);
   }
   //   changeAmount(e) {
   //     this.setState({ amount: e.target.value });

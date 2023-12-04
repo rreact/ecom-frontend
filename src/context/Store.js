@@ -9,6 +9,7 @@ const initialState = {
     token: null,
   },
   order: {},
+  oauth: {},
 };
 
 const reducer = (state, action) => {
@@ -25,7 +26,6 @@ const reducer = (state, action) => {
           mob: null,
           token: null,
         },
-        order: {},
       };
     case "ORDER":
       return {
@@ -33,6 +33,20 @@ const reducer = (state, action) => {
         order: {
           id: action?.payload.id,
           amount: action?.payload.amount,
+        },
+      };
+    case "OAUTH":
+      return {
+        ...state,
+        user: {
+          name: action.payload?.name,
+          email: action.payload?.email,
+        },
+        oauth: {
+          name: action.payload?.name,
+          picture: action.payload?.picture,
+          email: action.payload?.email,
+          email_verified: true,
         },
       };
     case "LOGOUT":
